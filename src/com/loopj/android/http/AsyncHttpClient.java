@@ -567,7 +567,7 @@ public class AsyncHttpClient {
 
 
     // Private stuff
-    private RequestHandle sendRequest(DefaultHttpClient client, HttpContext httpContext, HttpUriRequest uriRequest, String contentType, AsyncHttpResponseHandler responseHandler, Context context) {
+    protected RequestHndle sendRequest(DefaultHttpClient client, HttpContext httpContext, HttpUriRequest uriRequest, String contentType, AsyncHttpResponseHandler responseHandler, Context context) {
         if(contentType != null) {
             uriRequest.addHeader("Content-Type", contentType);
         }
@@ -590,10 +590,14 @@ public class AsyncHttpClient {
         return new RequestHandle(request);
     }
 
-    private String getUrlWithQueryString(String url, RequestParams params) {
+    public static String getUrlWithQueryString(String url, RequestParams params) {
         if(params != null) {
             String paramString = params.getParamString();
-            url += "?" + paramString;
+            if (url.indexOf("?") == -1) {
+                url += "?" + paramString;
+            } else {
+                url += "&" + paramString;
+            }
         }
 
         return url;
