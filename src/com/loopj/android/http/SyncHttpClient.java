@@ -51,7 +51,7 @@ public abstract class SyncHttpClient extends AsyncHttpClient {
 	}
 
 	// Private stuff
-	protected void sendRequest(DefaultHttpClient client,
+	protected RequestHandle sendRequest(DefaultHttpClient client,
 			HttpContext httpContext, HttpUriRequest uriRequest,
 			String contentType, AsyncHttpResponseHandler responseHandler,
 			Context context) {
@@ -64,6 +64,8 @@ public abstract class SyncHttpClient extends AsyncHttpClient {
 		 */
 		new AsyncHttpRequest(client, httpContext, uriRequest, responseHandler)
 				.run();
+		// Return an un-cancellable RequestHandle
+		return new RequestHandle(null);
 	}
 
 	public abstract String onRequestFailed(Throwable error, String content);
