@@ -25,6 +25,9 @@ public class RequestHandle {
 	 * After this method returns, subsequent calls to isDone() will always
 	 * return true. Subsequent calls to isCancelled() will always return true
 	 * if this method returned true.
+	 * 
+	 * @param mayInterruptIfRunning true if the thread executing this request should be interrupted; otherwise, in-progress requests are allowed to complete
+	 * @return false if the request could not be cancelled, typically because it has already completed normally; true otherwise
 	 */
 	public boolean cancel(boolean mayInterruptIfRunning) {
 		if (this.request == null) {
@@ -33,6 +36,10 @@ public class RequestHandle {
 		return request.cancel(mayInterruptIfRunning);
 	}
 	
+	/**
+	 * Returns true if this task completed. Completion may be due to normal termination, an exception, or cancellation -- in all of these cases, this method will return true.
+	 * @return true if this task completed
+	 */
 	public boolean isFinished() {
 		if (this.request == null) {
 			return true;
@@ -40,6 +47,10 @@ public class RequestHandle {
 		return request.isDone();
 	}
 	
+	/**
+	 * Returns true if this task was cancelled before it completed normally.
+	 * @return true if this task was cancelled before it completed
+	 */
 	public boolean isCancelled() {
 		if (this.request == null) {
 			return false;
